@@ -31,3 +31,28 @@ This command will let the server listen 8080 port. If this port is already in us
 
 If your server starts correctly, you can open your browser and visit http://localhost:8080 or http://127.0.0.1:8080.
 Https is not supported by the current version.
+
+---
+## Google Sheets API
+
++ Visit [here](https://developers.google.com/sheets/quickstart/python) and go through Step 1: Turn on the Google Sheets. After finishing Step 1, you will get a credential key.
+
++ Rename the .json file to ```client_secret.json``` and put the file under ```GC-Recruit-Web/goole_spreadsheet_test```.
+
++ Install google-api-python-client with the following command: 
+```
+pip install --upgrade google-api-python-client
+```
+
++ Run setup.py with the following command under ```GC-Recruit-Web/goole_spreadsheet_test```.
+```
+python3 setup.py --noauth_local_webserver
+```
+
++ A link will be provided. Visit the link via your local browser, and accept the request for authentication.  
+  Then, you will get a key. Copy and paste the key to your terminal.  
+  After finishing this step, your credential will be stored in ```~/.credentials/spreadsheet_test_credentials.json```.
+  This file will be automatically loaded by update.py.
+
++ You can assign your spreadsheet ID to the variable ```spreadsheetId``` in ```spreadsheet_test/update.py``` to access your own spreadsheet.
+
