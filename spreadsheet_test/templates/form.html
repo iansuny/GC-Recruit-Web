@@ -1,1 +1,10 @@
-Hello anonymous OuO
+<h1> Basic Information </h1>
+
+<form action="{% url 'spreadsheet_test:send' %}" method="post">
+{% csrf_token %}
+  Name: <input type="text" name="name"><br>
+  Birthday: <input type="text" name="birth"><br>
+  School: <input type="text" name="school"><br>
+  Department: <input type="text" name="dept"><br>
+  <input type="submit" value="Submit" />
+</form>
