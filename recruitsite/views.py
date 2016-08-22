@@ -56,3 +56,7 @@ def use_session(request):
 		response = HttpResponse('Your lucky_number is ' + str(lucky_number))
 	del request.session['lucky_number']
 	return response
+
+def complete(request):
+	return render_to_response('complete.html', RequestContext(request, locals()))
+

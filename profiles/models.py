@@ -5,28 +5,28 @@ from django.conf import settings
 # Create your models here.
 class Interest(models.Model):
 	name = models.CharField(max_length=50, default='Medical Health')
-	def __unicode__(self):
-		return self.name
+	def __str__(self):
+		return str(self.name)
 
 class Talent(models.Model):
 	name = models.CharField(max_length=50, default='Math')
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 class Badge(models.Model):
-	name = models.CharField(max_length=50, default='beginner')
-	def __unicode__(self):
+	name = models.CharField(max_length=50, default='none')
+	def __str__(self):
 		return self.name
 class Team(models.Model):
-	name = models.CharField(max_length=50, default='ntu')
+	name = models.CharField(max_length=50, default='none')
 	need = models.IntegerField(max_length=5)
 	interest = models.ForeignKey(Interest)
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 class Follow(models.Model):
-	name = models.CharField(max_length=50, default='student1')
-	def __unicode__(self):
+	name = models.CharField(max_length=50, default='none')
+	def __str__(self):
 		return self.name
 
 class Student(models.Model):
@@ -38,12 +38,15 @@ class Student(models.Model):
 	motto = models.CharField(max_length=20, blank=True)
 	interest = models.ForeignKey(Interest, null=True)
 	talent = models.ForeignKey(Talent, null=True)
-	badge = models.ForeignKey(Badge, null=True)
-	team = models.ForeignKey(Team, null=True)
-	follow = models.ForeignKey(Follow, null=True)
+	badge = models.ForeignKey(Badge, default=1 )
+	team = models.ForeignKey(Team, default=1 )
+	follow = models.ForeignKey(Follow, default=1 )
 	class Meta:
 		permissions = (
 			("can_edit_base_profile", "Can edit base profile"),
-		)
+			("can_view_base_profile", "Can view base profile"),
 
+		)
+	def __str__(self):
+		return self.realname
 

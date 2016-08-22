@@ -12,6 +12,7 @@ def list_student(request):
 	interests = Interest.objects.all()
 	return render_to_response('student_list.html', locals())
 
+@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
 def profile(request):
 	student = Student.objects.get(name=request.user)
 	#students = Student.objects.all()
@@ -27,3 +28,35 @@ def edit(request):
 		return render_to_response('my_profile.html', RequestContext(request, locals()))
 	else:
 		return render_to_response('edit_profile.html', RequestContext(request, locals()))
+
+def student_create(request):
+	errors = []
+	if request.POST:
+		name = request.user
+		realname = request.POST['realname']
+		nickname = request.POST['nickname']
+		department = request.POST['department']
+		motto = request.POST['motto']
+		interest = request.POST['interest']
+		team = request.POST['team']
+		talent = request.POST['talent']
+		badge = request.POST['badge']
+		follow = request.POST['follow']
+		if any(not request.POST[k] for k in request.POST):
+			errors.append('* 有空白欄位！請不要留空！')
+		if not errors:
+			Student.objects.create(
+				realname = realname,
+				nickname = nickname,
+				department = department,
+				motto = motto,
+				interest = interest,
+				#team = team
+				talent = talent,
+				#badge = badge
+				#follow = follow
+			)
+		return render_to_response('complete.html', RequestContext(request, locals()))
+	else:
+		return render_to_response('create_student.html', RequestContext(request, locals()))
+
