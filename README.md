@@ -17,6 +17,10 @@ source ENV/bin/activate
 ```
 pip3 install django
 ```
++ Install ```psycopg2```.
+```
+pip3 install psycopg2
+```
 + Add your own secret key for django server in recruitsite/secret.py. This file should contain one line.
 ```
 DJANGO_SECRET_KEY = '<your own django secret key>'
