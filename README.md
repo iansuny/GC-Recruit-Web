@@ -31,7 +31,7 @@ This file will be automatically ignored by git and be included by other files wh
 ```
 python3 manage.py runserver 127.0.0.1:8080
 ```
-This command will let the server listen 8080 port. If this port is already in used, please change it to any port > 1024 which is not in use.
+This command will let the server listen 8080 port. If this port is already in use, please change it to any port > 1024 which is not in use.
 
 If your server starts correctly, you can open your browser and visit http://localhost:8080 or http://127.0.0.1:8080.
 Https is not supported by the current version.
