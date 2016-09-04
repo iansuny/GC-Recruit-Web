@@ -22,7 +22,7 @@ admin.site.register(User, UserAdmin)
 '''
 class StudentAdmin(admin.ModelAdmin):
 	#list_display = ('name', 'nickname', 'department','motto','interest', 'talent', 'badge', 'follow')
-	list_display = ('name', 'nickname', 'department','motto','interest', 'talent', 'badge')
+	list_display = ('name', 'nickname', 'department','motto','interest', 'talent')
 	
 
 admin.site.register(Student, StudentAdmin)
@@ -30,4 +30,3 @@ admin.site.register(Interest)
 admin.site.register(Talent)
 admin.site.register(Badge)
 admin.site.register(Team)
-#admin.site.register(Follow)

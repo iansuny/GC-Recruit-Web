@@ -34,9 +34,9 @@ class Student(models.Model):
 	motto = models.CharField(max_length=20, blank=True)
 	interest = models.ForeignKey(Interest, null=True)
 	talent = models.ForeignKey(Talent, null=True)#many student to one talent
-	badge = models.ForeignKey(Badge, default=1 )#many student to one badge???
+	badge = models.ManyToManyField(Badge, default=1 )#one student can have many badges, one badge can have many students
 	team = models.ForeignKey(Team, default=1 )#many student to one team
-	follow=models.ManyToManyField('self', blank=True, symmetrical=False)
+	follow = models.ManyToManyField('self', blank=True, symmetrical=False)
 	class Meta:
 		permissions = (
 			("can_edit_base_profile", "Can edit base profile"),
@@ -45,12 +45,3 @@ class Student(models.Model):
 		)
 	def __str__(self):
 		return self.realname
-
-#class Follow(models.Model):
-	
-	#this is name's shopping cart
-	#query:user.follow_set
-	#name = models.OneToOneField(User)
-	#students = models.ManyToManyField(Student)
-	#def __str__(self):
-		#return self.name.username
