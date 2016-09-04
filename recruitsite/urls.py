@@ -6,7 +6,7 @@ from recruitsite.views import welcome, index, register, logout, perror, use_sess
 from django.contrib.auth.views import login#, logout
 from django.contrib.auth.decorators import login_required
 
-from profiles.views import list_student, profile, edit, student_create
+from profiles.views import list_student, profile, edit, student_create, individual_profile, follow_complete
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'^permission_error/$', perror),
     url(r'^create_student/$', login_required(student_create)),
     url(r'^complete/$', complete),
+
+    url(r'^individual_profile/$', individual_profile),
+    url(r'^follow_complete/$', follow_complete),
 
 ]

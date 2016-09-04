@@ -29,37 +29,21 @@
 		</nav>
 		<div class="container">
 			<div class="menus">
-				<p>
-						<table class="table">
-							<tr>
-								<th>姓名</th>
-								<th>暱稱</th>
-								<th>系級</th>
-								<th>座右銘</th>
-								<th>興趣</th>
-								<th>所屬隊伍</th>
-								<th>技能</th>
-								<th>徽章</th>
-								<th>我的最愛</th>
-							</tr>
-							<tr>
-								<td> {{student.realname}} </td>
-								<td> {{student.nickname}}</td>
-								<td> {{student.department}} </td>
-								<td> {{student.motto}} </td>
-								<td> {{student.interest.name}} </td>
-								<td> {{student.team}} </td>
-								<td> {{student.talent}} </td>
-								<td> {{student.badge}} </td>
-								<td> {{student.follow}} </td>
-							</tr>
-						</table>
-						{% if perms.profiles.can_edit_base_profile %}
-						<a href="/edit_profile/">編輯</a>
-						{% endif %}
 
-				</p>
-			</div>
+      {% if request.user.is_authenticated %}          
+      	<h2>收藏成功！</h2>
+            <table align="center">
+              <tr>
+                <td></td>
+               </tr>
+            </table>
+      {%else%}
+        <p><div>您尚未登入喔~<a href="/accounts/login">登入</a></p></div>
+        <p>若您還沒有帳號,請<a href="/accounts/register/">註冊</a></p>
+      {%endif%}
+        </div>
+
+      
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>

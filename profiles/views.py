@@ -6,11 +6,50 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
+def follow_complete(request):
+	return render_to_response('follow_complete.html', locals())
+
+
+def individual_profile(request):
+	try:
+		student = Student.objects.get(name=request.user)
+	except Student.DoesNotExist:
+		student=None
+
+	if request.GET.get('id'):
+		individual = Student.objects.get(id=request.GET['id'])
+		return render_to_response('individual_profile.html', locals())
+	elif request.GET.get('follow'):
+		individual = Student.objects.get(id=request.GET['follow'])
+		student.follow.add(individual)	
+		student.save()
+		return render_to_response('follow_complete.html', locals())
+	else:
+		return HttpResponse("errr...")
+		
+
 def list_student(request):
 #	student1 = { 'name':'陳紹恩', 'department':'IM', 'interest':'', 'talent':'', 'badge':'haha', 'follow':'', 'team':'', 'motto':'hahaha'}
+	#if request.user.is_authenticated:
 	students = Student.objects.all()
 	interests = Interest.objects.all()
+	followed = [0]*1000
+	try:
+		student = Student.objects.get(name=request.user)
+		print(student.follow.all())
+		for i in students:
+			for j in student.follow.all():
+				if j==i:
+					followed[i.id] = 1
+					break
+				else:
+					followed[i.id] = 0
+	except Student.DoesNotExist:
+		student=None
+	#print(followed)	
 	return render_to_response('student_list.html', locals())
+
+
 
 @permission_required('profiles.can_view_base_profile', login_url='/create_student/')
 def profile(request):
@@ -38,10 +77,10 @@ def student_create(request):
 		department = request.POST['department']
 		motto = request.POST['motto']
 		interest = request.POST['interest']
-		team = request.POST['team']
+	#	team = request.POST['team']
 		talent = request.POST['talent']
-		badge = request.POST['badge']
-		follow = request.POST['follow']
+#		badge = request.POST['badge']
+		#follow = request.POST['follow']
 		if any(not request.POST[k] for k in request.POST):
 			errors.append('* 有空白欄位！請不要留空！')
 		if not errors:

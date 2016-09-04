@@ -23,37 +23,50 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Profile</a>
+					<a class="navbar-brand" href="/index">Mysite</a>
 				</div>
 			</div>
 		</nav>
 		<div class="container">
 			<div class="menus">
-				<p>
-					{% for i in interests %}
-					<h2>{{i.name}}的參賽者</h2>
-					{% if i.student_set.all %}
-						<p>本領域共有{{ i.student_set.all|length}}個參賽者 </p>
-						<table class="table">
-							<tr>
-								<th>姓名</th>
-								<th>系級</th>
-								<th>座右銘</th>
-							</tr>
-						{% for student in i.student_set.all %}
-							<tr>
-								<td> {{student.realname}} </td>
-								<td> {{student.department}} </td>
-								<td> {{student.motto}} </td>
-							</tr>
-						{% endfor %}
-						</table>
-				</p>
-					{% else %}
-						<p> 本領域無參賽者! </p>
-					{% endif %}
-					{% endfor %}
-			</div>
+
+{% if request.user.is_authenticated %}
+  <p>
+  {% for i in interests %}
+    <h2>{{i.name}}的參賽者</h2>
+    {% if i.student_set.all %}
+      <p>本領域共有{{ i.student_set.all|length}}個參賽者 </p>
+      <table class="table">
+      <tr>
+      <th>姓名</th>
+      <th>系級</th>
+      <th>座右銘</th>
+      <th>收藏情況</th>
+      </tr>
+      {%for i in students %}
+        {%if i != student%}
+          <tr>      
+            <td> {{ i.name }} </td>
+            <td> {{ i.department }} </td>
+            <td> {{ i.motto }} </td>
+            {%if i in student.follow.all%}
+              <td>已收藏</td>
+            {%else%}
+              <td>未收藏 <a href="/individual_profile/?id={{i.id}}">看看</a></td>
+            {%endif%}
+          </tr>
+        {%endif%}
+      {% endfor %}  
+    {% else %}
+      <p> 本領域無參賽者! </p>
+    {% endif %}
+  {% endfor %}
+{%else%}
+  <p><div>您尚未登入喔~<a href="/accounts/login">登入</a></p></div>
+  <p>若您還沒有帳號,請<a href="/accounts/register/">註冊</a></p>
+{%endif%}
+        </div>
+      
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
