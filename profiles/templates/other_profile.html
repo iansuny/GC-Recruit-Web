@@ -30,31 +30,36 @@
 		<div class="container">
 			<div class="menus">
 				<p>
-					{% for i in interests %}
-					<h2>{{i.name}}的參賽者</h2>
-					{% if i.student_set.all %}
-						<p>本領域共有{{ i.student_set.all|length}}個參賽者 </p>
 						<table class="table">
 							<tr>
 								<th>姓名</th>
+								<th>暱稱</th>
 								<th>系級</th>
 								<th>座右銘</th>
-								<th>詳細資料</th>
+								<th>興趣</th>
+								<th>所屬隊伍</th>
+								<th>技能</th>
+								<th>徽章</th>
+								<th>我的最愛</th>
 							</tr>
-						{% for student in i.student_set.all %}
 							<tr>
 								<td> {{student.realname}} </td>
+								<td> {{student.nickname}}</td>
 								<td> {{student.department}} </td>
 								<td> {{student.motto}} </td>
-								<td> <a href="/other_profile/{{ student.id }}/">檢視</a> </td>
+								<td> {{student.interest.name}} </td>
+								<td> {{student.team}} </td>
+								<td> {{student.talent}} </td>
+								<td> {{student.badge}} </td>
+								<td> {{student.follow}} </td>
 							</tr>
-						{% endfor %}
 						</table>
+<!-- 						{% if perms.profiles.can_edit_base_profile %}
+ -->						<a href="/chatroom/{{ myid }}/{{ student.id }}/">聊天</a>
+<!-- 							 <a href="/chatroom?idfrom={{ request.user.student.id }}&idto={{ student.id }}">聊天</a>
+ -->						{% endif %}
+
 				</p>
-					{% else %}
-						<p> 本領域無參賽者! </p>
-					{% endif %}
-					{% endfor %}
 			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

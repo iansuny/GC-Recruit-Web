@@ -36,11 +36,11 @@ class Student(models.Model):
 	nickname = models.CharField(max_length=50)
 	department = models.CharField(max_length=50)
 	motto = models.CharField(max_length=20, blank=True)
-	interest = models.ForeignKey(Interest, null=True)
-	talent = models.ForeignKey(Talent, null=True)
+	interest = models.ForeignKey(Interest, default=1)
+	talent = models.ForeignKey(Talent, default=1)
 	badge = models.ForeignKey(Badge, default=1 )
 	team = models.ForeignKey(Team, default=1 )
-	follow = models.ForeignKey(Follow, default=1 )
+	follow = models.ForeignKey(Follow, default=1)
 	class Meta:
 		permissions = (
 			("can_edit_base_profile", "Can edit base profile"),
@@ -49,4 +49,15 @@ class Student(models.Model):
 		)
 	def __str__(self):
 		return self.realname
+
+class Chatroom(models.Model):
+	# roomname = models.CharField(max_length=50)
+	student1 = models.ForeignKey(Student, null=True, related_name='student1')
+	student2 = models.ForeignKey(Student, null=True, related_name='student2')
+	content = models.CharField(max_length=50)
+	date_time = models.DateTimeField()
+	def __str__(self):
+		return self.content
+
+
 

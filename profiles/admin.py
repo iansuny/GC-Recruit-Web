@@ -1,5 +1,5 @@
 from django.contrib import admin
-from profiles.models import Student, Interest, Talent, Badge, Team, Follow
+from profiles.models import Student, Interest, Talent, Badge, Team, Follow, Chatroom
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -20,7 +20,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 '''
 class StudentAdmin(admin.ModelAdmin):
-	list_display = ('name', 'nickname', 'department')
+	list_display = ('name', 'realname', 'nickname', 'department')
 	
 
 admin.site.register(Student, StudentAdmin)
@@ -29,3 +29,4 @@ admin.site.register(Talent)
 admin.site.register(Badge)
 admin.site.register(Team)
 admin.site.register(Follow)
+admin.site.register(Chatroom)
