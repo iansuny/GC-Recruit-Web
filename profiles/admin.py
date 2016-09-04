@@ -1,5 +1,5 @@
 from django.contrib import admin
-from profiles.models import Student, Interest, Talent, Badge, Team, Follow, Chatroom
+from profiles.models import Student, Interest, Talent, Badge, Team, Follow, Chatroom, up_file, file_info
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -30,3 +30,5 @@ admin.site.register(Badge)
 admin.site.register(Team)
 admin.site.register(Follow)
 admin.site.register(Chatroom)
+admin.site.register(up_file)
+admin.site.register(file_info)

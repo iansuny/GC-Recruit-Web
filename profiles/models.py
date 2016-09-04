@@ -59,5 +59,15 @@ class Chatroom(models.Model):
 	def __str__(self):
 		return self.content
 
+class up_file(models.Model):
+	upload_datetime = models.DateTimeField()
+	student = models.ForeignKey(Student, null=True)
+	def __str__(self):
+		return self.student
 
-
+class file_info(models.Model):
+	File = models.ForeignKey(up_file, null=True)
+	local_name = models.CharField(max_length=50)
+	upload_name = models.CharField(max_length=50)
+	def __str__(self):
+		return self.upload_name

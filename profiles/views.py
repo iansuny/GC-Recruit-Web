@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response
-from profiles.models import Student, Interest, Chatroom, Team, Badge, Follow, Talent
+from profiles.models import Student, Interest, Chatroom, Team, Badge, Follow, Talent, up_file, file_info
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
+import shutil, os
 
 # Create your views here.
 def list_student(request):
@@ -94,5 +95,78 @@ def other_profile(request,id):
 		return render_to_response('other_profile.html', RequestContext(request, locals()))
 	else:
 		return HttpResponseRedirect("/student_list/")
+
+def upload(request):
+	s1=Student.objects.get(id=request.user.student_set.first().id)
+	if request.method == 'POST':# request.POST.get 如果沒有request到資料時會丟回None
+		date = timezone.localtime(timezone.now())
+        # 存入資料庫
+		form = up_file(upload_datetime = date, student = s1) 
+		form.save()
+		files = [f for key, f in request.FILES.items()] #抓取檔案(可能多個檔案)
+		if len(files) > 0:
+			try:
+				file_dir = os.path.join('/Users/handsome/Desktop/upload' , str(form.pk))
+                #如果路徑中的檔案夾不存在就建立一個新的
+				if not os.path.exists(file_dir):
+					os.makedirs(file_dir) 
+					for file in files:    
+                        #為了避免檔案名稱重複，因此存在server端時，把修改檔案名稱
+						local_name = timezone.now().strftime('%Y%m%d%H%M%S')
+						file_path = os.path.join(file_dir, local_name)
+                        #存入資料庫
+						file_save = file_info(
+									File = up_file.objects.get(id=form.pk),
+									local_name = local_name, #存在server檔名
+									upload_name = file.name #原本檔名
+									)
+						file_save.save()
+				# 開始讀寫檔案至server
+    #              'b' 如果檔案存在就會被覆蓋
+						destination =open(file_path,'wb+')
+						for chunk in file.chunks():
+ 							destination.write(chunk)
+ 							destination.close()
+			except:
+				pass
+			# 		shutil.rmtree(file_dir, True)   #發生例外，就刪除路徑檔案
+	return render_to_response('upload.html', RequestContext(request, locals()))
+
+def upload_head(request):
+	s1=Student.objects.get(id=request.user.student_set.first().id)
+	if request.method == 'POST':# request.POST.get 如果沒有request到資料時會丟回None
+		date = timezone.localtime(timezone.now())
+        # 存入資料庫
+		form = up_file(upload_datetime = date, student = s1) 
+		form.save()
+		files = [f for key, f in request.FILES.items()] #抓取檔案(可能多個檔案)
+		if len(files) > 0:
+			try:
+				file_dir = os.path.join('/Users/handsome/Desktop/upload' , str(form.pk))
+                #如果路徑中的檔案夾不存在就建立一個新的
+				if not os.path.exists(file_dir):
+					os.makedirs(file_dir) 
+					for file in files:    
+                        #為了避免檔案名稱重複，因此存在server端時，把修改檔案名稱
+						local_name = timezone.now().strftime('%Y%m%d%H%M%S')
+						file_path = os.path.join(file_dir, local_name)
+                        #存入資料庫
+						file_save = file_info(
+									File = up_file.objects.get(id=form.pk),
+									local_name = local_name, #存在server檔名
+									upload_name = file.name #原本檔名
+									)
+						file_save.save()
+				# 開始讀寫檔案至server
+    #              'b' 如果檔案存在就會被覆蓋
+						destination =open(file_path,'wb+')
+						for chunk in file.chunks():
+ 							destination.write(chunk)
+ 							destination.close()
+			except:
+				pass
+			# 		shutil.rmtree(file_dir, True)   #發生例外，就刪除路徑檔案
+	return render_to_response('upload_head.html', RequestContext(request, locals()))
+
 
 
