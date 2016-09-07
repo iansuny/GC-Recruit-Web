@@ -1,36 +1,10 @@
-<!doctype html>
-<html>
-	<head>
-		<title> Chat Room </title>
-		<meta charset='utf-8'>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-		<style>
-		th { text-align : center;}
-		div.menus{
-			text-align : center;
-			padding: 40px 15px;
-		}
-		</style>
-	 </head>
-	 <body>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">Profile</a>
-				</div>
-			</div>
-		</nav>
-		<div class="container">
-			<div class="menus">
+{% extends 'base.html' %}
+
+{% block title %} Chat Room {% endblock %}
+{% block h2 %} {{ s1.nickname }}與{{ s2.nickname }}的聊天室 {% endblock %}
+
+{% block content %}
 				<p>
-					<h2>{{ s1.nickname }}與{{ s2.nickname }}的聊天室</h2>
 					{% if chatroom %}
 
 						<table class="table">
@@ -63,9 +37,8 @@
 						</table>
 						<input type="submit" value="留言">
 					</form>
-			</div>
-		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	</body>
-</html>
+{% endblock %}
+{% block img %}
+	
+{% endblock %}
+

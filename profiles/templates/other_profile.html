@@ -1,35 +1,10 @@
-<!doctype html>
-<html>
-	<head>
-		<title> Student Profile </title>
-		<meta charset='utf-8'>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-		<style>
-		th { text-align : center;}
-		div.menus{
-			text-align : center;
-			padding: 40px 15px;
-		}
-		</style>
-	 </head>
-	 <body>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">Profile</a>
-				</div>
-			</div>
-		</nav>
-		<div class="container">
-			<div class="menus">
-				<p>
+{% extends 'base.html' %}
+
+{% block title %} Student Profile {% endblock %}
+{% block h2 %} {{student.nickname}}的個人資料 {% endblock %}
+
+{% block content %}
+	<p>
 						<table class="table">
 							<tr>
 								<th>姓名</th>
@@ -54,15 +29,28 @@
 								<td> {{student.follow}} </td>
 							</tr>
 						</table>
+						<form action="" method="GET">
+             				<table align="center">
+               					<tr>
+                 					<td><input type="hidden"  name="follow" value="{{student.id}}"></td>
+                 					{%if student.id != myid%}
+                 						{%if student in me.follow.all%}
+                 							<td><input type="hidden"></td>
+                 						{%else%}
+                   							<td><input type="submit" value="收藏"></td>
+                 						{%endif%}
+                 					{%endif%}
+                					</tr>
+            				</table>
+ 	          				</form>
 <!-- 						{% if perms.profiles.can_edit_base_profile %}
  -->						<a href="/chatroom/{{ myid }}/{{ student.id }}/">聊天</a>
 <!-- 							 <a href="/chatroom?idfrom={{ request.user.student.id }}&idto={{ student.id }}">聊天</a>
  -->						{% endif %}
 
 				</p>
-			</div>
-		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	</body>
-</html>
+{% endblock %}
+{% block img %}
+	
+{% endblock %}
+

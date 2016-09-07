@@ -5,7 +5,7 @@ from django.contrib import admin
 from recruitsite.views import welcome, index, register, logout, perror, use_session, complete#, login, logout
 from django.contrib.auth.views import login#, logout
 from django.contrib.auth.decorators import login_required
-from profiles.views import list_student, profile, edit, student_create, other_profile, chatroom, upload, upload_head
+from profiles.views import list_student, profile, edit, student_create, other_profile, chatroom, upload, individual_profile, follow_complete
 
 admin.autodiscover()
 urlpatterns = [
@@ -22,13 +22,14 @@ urlpatterns = [
 
     url(r'^student_list/$', list_student),
     url(r'^my_profile/$', login_required(profile)),
-    url(r'^other_profile/(\d{1,5})/$', login_required(other_profile)),
+    url(r'^other_profile/$', login_required(other_profile)),
     url(r'^edit_profile/$', login_required(edit)),
     url(r'^permission_error/$', perror),
     url(r'^create_student/$', login_required(student_create)),
     url(r'^complete/$', complete),
     url(r'^chatroom/(\d{1,5})/(\d{1,5})/$', chatroom),
     url(r'^upload/$', upload),
-    url(r'^upload_head/$', upload_head),
-
+    #url(r'^upload_head/$', upload_head),
+    #url(r'^individual_profile/$', individual_profile),
+    url(r'^follow_complete/$', follow_complete),
 ]

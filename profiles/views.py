@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response
-from profiles.models import Student, Interest, Chatroom, Team, Badge, Follow, Talent, up_file, file_info
+from profiles.models import Student, Interest, Chatroom, Team, Badge, Talent, up_file, file_info
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
@@ -12,6 +12,7 @@ def list_student(request):
 #	student1 = { 'name':'陳紹恩', 'department':'IM', 'interest':'', 'talent':'', 'badge':'haha', 'follow':'', 'team':'', 'motto':'hahaha'}
 	students = Student.objects.all()
 	interests = Interest.objects.all()
+	me = Student.objects.get(name=request.user)
 	return render_to_response('student_list.html', locals())
 
 @permission_required('profiles.can_view_base_profile', login_url='/create_student/')
@@ -44,7 +45,7 @@ def student_create(request):
 		team = Team.objects.get(name='none')
 		talent = Talent.objects.get(name='none')
 		badge = Badge.objects.get(name='none')
-		follow = Follow.objects.get(name='none')
+		#follow = Follow.objects.get(name='none')
 		# interest = request.POST['interest']
 		# team = request.POST['team']
 		# talent = request.POST['talent']
@@ -63,7 +64,6 @@ def student_create(request):
 				team = team,
 				talent = talent,
 				badge = badge,
-				follow = follow,
 			)
 		return render_to_response('complete.html', RequestContext(request, locals()))
 	else:
@@ -88,11 +88,18 @@ def chatroom(request, idfrom, idto):
 	return render_to_response('chatroom.html', RequestContext(request, locals()))
 
 #@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
-def other_profile(request,id):
-	if id:
+def other_profile(request):
+	if request.GET.get('id'):
 		myid = request.user.student_set.first().id
-		student = Student.objects.get(id=id)
+		me = Student.objects.get(name=request.user)
+		student = Student.objects.get(id=request.GET['id'])
 		return render_to_response('other_profile.html', RequestContext(request, locals()))
+	if request.GET.get('follow'):
+ 		me = Student.objects.get(name=request.user)
+ 		student = Student.objects.get(id=request.GET['follow'])
+ 		me.follow.add(student)	
+ 		me.save()
+ 		return render_to_response('follow_complete.html', locals())
 	else:
 		return HttpResponseRedirect("/student_list/")
 
@@ -168,5 +175,27 @@ def upload_head(request):
 			# 		shutil.rmtree(file_dir, True)   #發生例外，就刪除路徑檔案
 	return render_to_response('upload_head.html', RequestContext(request, locals()))
 
+def follow_complete(request):
+	return render_to_response('follow_complete.html', locals())
 
+
+def individual_profile(request):
+	try:
+		student = Student.objects.get(name=request.user)
+	except Student.DoesNotExist:
+		student=None
+
+	if request.GET.get('id'):
+		individual = Student.objects.get(id=request.GET['id'])
+		return render_to_response('individual_profile.html', locals())
+	elif request.GET.get('follow'):
+		individual = Student.objects.get(id=request.GET['follow'])
+		student.follow.add(individual)	
+		student.save()
+		return render_to_response('follow_complete.html', locals())
+	else:
+		return HttpResponse("errr...")
+
+def follow_complete(request):
+ 	return render_to_response('follow_complete.html', locals())
 
