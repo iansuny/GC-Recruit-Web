@@ -24,9 +24,15 @@ def profile(request):
 @permission_required('profiles.can_edit_base_profile', login_url='/permission_error/')
 def edit(request):
 	student = Student.objects.get(name=request.user)
+	team = Team.objects.all()
+	talent = Talent.objects.all()
 	if request.POST:
 		motto = request.POST['motto']
+		myteam = request.POST['team']
+		mytalent = request.POST['talent']
 		student.motto = motto
+		student.team = Team.objects.get(name=myteam)
+		student.talent = Talent.objects.get(name=mytalent)
 		student.save()
 		return render_to_response('my_profile.html', RequestContext(request, locals()))
 	else:
@@ -178,6 +184,31 @@ def upload_head(request):
 def follow_complete(request):
 	return render_to_response('follow_complete.html', locals())
 
+def list_team(request):
+	students = Student.objects.all()
+	teams = Team.objects.all()
+	return render_to_response('team_list.html', locals())
+
+def create_team(request):
+	errors = []
+	if request.POST:
+		student = request.user.student_set.first()
+		teamname = request.POST['teamname']
+		need = request.POST['need']
+		interest = Interest.objects.get(name='Sustainable Environment')
+		if any(not request.POST[k] for k in request.POST):
+			errors.append('* 有空白欄位！請不要留空！')
+		if not errors:
+			t = Team.objects.create(
+					name=teamname,
+					interest = interest,
+					need = need,
+				)
+			student.team = t
+			student.save()
+		return render_to_response('complete.html', RequestContext(request, locals()))
+	else:
+		return render_to_response('create_team.html', RequestContext(request, locals()))
 
 def individual_profile(request):
 	try:

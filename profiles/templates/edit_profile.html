@@ -8,15 +8,20 @@
                     <div class="form-group">
                     <label for="motto">motto:</label>
                     <input id="motto" type="text" name="motto" class="form-control" value="{{student.motto}}">
+                    <label for="team">team:</label>
+                    <select  name="team" >
+                    {% for t in team %}
+                    <option value="{{ t }}"> {{ t }} </option>
+                    {% endfor %}
+                    </select>
+                    <label for="talent">talent:</label>
+                    <select  name="talent" >
+                    {% for ta in talent %}
+                    <option value="{{ ta }}"> {{ ta }} </option>
+                    {% endfor %}
+                    </select>
                     </div>
-                    <!-- <div class="form-group">
-                    <label for="">電子信箱:</label>
-                    <input id="email" type="text" name="email" class="form-control" value="{{email}}">
-                    </div>
-                    <div class="form-group">
-                    <label for="content">評價:</label>
-                    <textarea id="content" rows="10" cols="48" name="content" class="form-control">{{content}}</textarea>
-                    </div> -->
+
                     <input type="submit" value="送出" class="btn btn-default">
                 </form>
 {% endblock %}

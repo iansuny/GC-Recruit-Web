@@ -20,7 +20,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 '''
 class StudentAdmin(admin.ModelAdmin):
-	list_display = ('name', 'realname', 'nickname', 'department')
+	list_display = ('name', 'realname', 'nickname', 'department', 'team')
 	
 
 admin.site.register(Student, StudentAdmin)

@@ -61,7 +61,7 @@ class up_file(models.Model):
 	upload_datetime = models.DateTimeField()
 	student = models.ForeignKey(Student, null=True)
 	def __str__(self):
-		return self.student
+		return self.student.realname
 
 class file_info(models.Model):
 	File = models.ForeignKey(up_file, null=True)

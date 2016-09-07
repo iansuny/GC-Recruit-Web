@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %} Create Profile {% endblock %}
-{% block h2 %} 台大創創挑戰賽 {% endblock %}
+{% block title %} 填寫資料 {% endblock %}
+{% block h2 %} 填寫您的資料 {% endblock %}
 
 {% block content %}
-    {% for e in errors %}
+            {% for e in errors %}
+
                     <p style="color:red;">{{ e }}</p>
                 {% endfor %}
 
