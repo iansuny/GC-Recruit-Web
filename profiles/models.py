@@ -17,10 +17,11 @@ class Badge(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	def __str__(self):
 		return self.name
+		
 class Team(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	need = models.IntegerField(max_length=5, default=0)
-	interest = models.ForeignKey(Interest)
+	interest = models.ForeignKey(Interest, default=1)
 	def __str__(self):
 		return self.name
 
@@ -35,8 +36,8 @@ class Student(models.Model):
 	interest = models.ForeignKey(Interest, default=1)
 	talent = models.ForeignKey(Talent, default=1)
 	#talent = models.ManyToManyField(Talent, default=1 )#one student can have many badges, one badge can have many students
-	#badge = models.ManyToManyField(Badge, default=1 )#one student can have many badges, one badge can have many students
-	badge = models.ForeignKey(Badge, default=1)
+	badge = models.ManyToManyField(Badge, default=1 )#one student can have many badges, one badge can have many students
+	#badge = models.ForeignKey(Badge, default=1)
 	team = models.ForeignKey(Team, default=1 )
 	follow = models.ManyToManyField('self', blank=True, symmetrical=False)	
 	class Meta:
@@ -69,3 +70,13 @@ class file_info(models.Model):
 	upload_name = models.CharField(max_length=50)
 	def __str__(self):
 		return self.upload_name
+
+class Teamroom(models.Model):
+	# roomname = models.CharField(max_length=50)
+	team = models.ForeignKey(Team, unique=True)
+	speaker = models.ForeignKey(Student, null=True)
+	content = models.CharField(max_length=50)
+	date_time = models.DateTimeField()
+	def __str__(self):
+		return self.content
+

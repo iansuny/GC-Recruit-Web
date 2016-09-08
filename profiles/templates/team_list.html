@@ -9,6 +9,7 @@
 					<h2>{{i.name}}的參賽者</h2>
 					{% if i.student_set.all %}
 						<p>本隊伍共有{{ i.student_set.all|length}}個參賽者 </p>
+						<p> <a href="/teamroom/{{ i.id }}/"> 團隊留言板 </a> </p>
 						<table class="table">
 							<tr>
 								<th>姓名</th>
@@ -21,7 +22,7 @@
 								<td> {{student.realname}} </td>
 								<td> {{student.department}} </td>
 								<td> {{student.motto}} </td>
-								<td> <a href="/other_profile/{{ student.id }}/">檢視</a> </td>
+								<td> <a href="/other_profile/?id={{ student.id }}">檢視</a> </td>
 							</tr>
 						{% endfor %}
 						</table>
