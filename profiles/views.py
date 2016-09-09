@@ -174,7 +174,11 @@ def follow_complete(request):
 def teamroom(request,teamid):
 	me = Student.objects.get(name=request.user)
 	team = Team.objects.get(id=teamid)
-	teamroom = team.teamroom_set.first().order_by('date_time')
+	teamroom = team.teamroom_set.order_by('date_time')
+	if me.team == team:
+		member = True
+	else:
+		member = False
 	if request.POST:
 		content = request.POST['content']
 		date_time = timezone.localtime(timezone.now())
@@ -184,5 +188,5 @@ def teamroom(request,teamid):
 			content=content,
 			date_time=date_time
 		)
-	return render_to_response('chatroom.html', RequestContext(request, locals()))
+	return render_to_response('teamroom.html', RequestContext(request, locals()))
 

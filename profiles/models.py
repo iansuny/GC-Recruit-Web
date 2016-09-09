@@ -17,7 +17,7 @@ class Badge(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	def __str__(self):
 		return self.name
-		
+
 class Team(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	need = models.IntegerField(max_length=5, default=0)
@@ -73,7 +73,7 @@ class file_info(models.Model):
 
 class Teamroom(models.Model):
 	# roomname = models.CharField(max_length=50)
-	team = models.ForeignKey(Team, unique=True)
+	team = models.ForeignKey(Team, null=True)
 	speaker = models.ForeignKey(Student, null=True)
 	content = models.CharField(max_length=50)
 	date_time = models.DateTimeField()
