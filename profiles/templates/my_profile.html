@@ -13,9 +13,10 @@
 								<th>座右銘</th>
 								<th>興趣</th>
 								<th>所屬隊伍</th>
-								<th>技能</th>
+								<th>角色定位</th>
 								<th>徽章</th>
 								<th>我的最愛</th>
+								<th>特殊技能</th>
 							</tr>
 							<tr>
 								<td> {{student.realname}} </td>
@@ -24,9 +25,10 @@
 								<td> {{student.motto}} </td>
 								<td> {{student.interest.name}} </td>
 								<td> {{student.team}} </td>
-								<td> {{student.talent}} </td>
+								<td> {{student.role}} </td>
 								<td> {{student.badge}} </td>
 								<td> {{student.follow}} </td>
+								<td> {{student.talent}} </td>
 							</tr>
 						</table>
 						{% if perms.profiles.can_edit_base_profile %}

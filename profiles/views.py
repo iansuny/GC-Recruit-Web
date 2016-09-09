@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response
-from profiles.models import Student, Interest, Chatroom, Team, Badge, Talent, up_file, file_info, Teamroom
+from profiles.models import Student, Interest, Chatroom, Team, Badge, up_file, file_info, Teamroom, Role
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
@@ -10,7 +10,6 @@ import shutil, os
 # Create your views here.
 @permission_required('profiles.can_view_base_profile', login_url='/create_student/')
 def list_student(request):
-#	student1 = { 'name':'陳紹恩', 'department':'IM', 'interest':'', 'talent':'', 'badge':'haha', 'follow':'', 'team':'', 'motto':'hahaha'}
 	students = Student.objects.all()
 	interests = Interest.objects.all()
 	me = Student.objects.get(name=request.user)
@@ -26,14 +25,14 @@ def profile(request):
 def edit(request):
 	student = Student.objects.get(name=request.user)
 	team = Team.objects.all()
-	talent = Talent.objects.all()
+	role = Role.objects.all()
 	if request.POST:
 		motto = request.POST['motto']
 		myteam = request.POST['team']
-		mytalent = request.POST['talent']
+		myrole = request.POST['role']
 		student.motto = motto
 		student.team = Team.objects.get(name=myteam)
-		student.talent = Talent.objects.get(name=mytalent)
+		student.role = Role.objects.get(name=myrole)
 		student.save()
 		return render_to_response('my_profile.html', RequestContext(request, locals()))
 	else:
@@ -48,7 +47,7 @@ def student_create(request):
 		nickname = request.POST['nickname']
 		department = request.POST['department']
 		motto = request.POST['motto']
-		# talent = Talent.objects.get(name='none')
+		talent = request.POST['talent']
 		if any(not request.POST[k] for k in request.POST):
 			errors.append('* 有空白欄位！請不要留空！')
 		if not errors:
@@ -58,7 +57,7 @@ def student_create(request):
 				nickname = nickname,
 				department = department,
 				motto = motto,
-				# talent = talent,
+				talent = talent,
 			)
 		return render_to_response('complete.html', RequestContext(request, locals()))
 	else:
@@ -189,4 +188,15 @@ def teamroom(request,teamid):
 			date_time=date_time
 		)
 	return render_to_response('teamroom.html', RequestContext(request, locals()))
+
+@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
+def team_profile(request, teamid):
+	me = Student.objects.get(name=request.user)
+	team = Team.objects.get(id=teamid)
+	return render_to_response('team_profile.html', RequestContext(request, locals()))
+
+
+
+
+
 

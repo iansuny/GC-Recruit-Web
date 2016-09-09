@@ -8,11 +8,6 @@ class Interest(models.Model):
 	def __str__(self):
 		return str(self.name)
 
-class Talent(models.Model):
-	name = models.CharField(max_length=50, default='Math')
-	def __str__(self):
-		return self.name
-
 class Badge(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	def __str__(self):
@@ -20,8 +15,12 @@ class Badge(models.Model):
 
 class Team(models.Model):
 	name = models.CharField(max_length=50, default='none')
-	need = models.IntegerField(max_length=5, default=0)
 	interest = models.ForeignKey(Interest, default=1)
+	content = models.CharField(max_length=50, blank=True)
+	def __str__(self):
+		return self.name
+class Role(models.Model):
+	name = models.CharField(max_length=50, default='none')
 	def __str__(self):
 		return self.name
 
@@ -34,10 +33,10 @@ class Student(models.Model):
 	department = models.CharField(max_length=50)
 	motto = models.CharField(max_length=20, blank=True)
 	interest = models.ForeignKey(Interest, default=1)
-	talent = models.ForeignKey(Talent, default=1)
+	talent = models.CharField(max_length=20, blank=True)
 	#talent = models.ManyToManyField(Talent, default=1 )#one student can have many badges, one badge can have many students
 	badge = models.ManyToManyField(Badge, default=1 )#one student can have many badges, one badge can have many students
-	#badge = models.ForeignKey(Badge, default=1)
+	role = models.ForeignKey(Role, default=1)
 	team = models.ForeignKey(Team, default=1 )
 	follow = models.ManyToManyField('self', blank=True, symmetrical=False)	
 	class Meta:

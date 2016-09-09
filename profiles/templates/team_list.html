@@ -8,8 +8,8 @@
 					{% for i in teams %}
 					<h2>{{i.name}}的參賽者</h2>
 					{% if i.student_set.all %}
-						<p>本隊伍共有{{ i.student_set.all|length}}個參賽者 </p>
-						<p> <a href="/teamroom/{{ i.id }}/"> 團隊留言板 </a> </p>
+						<p>本隊伍共有{{ i.student_set.all | length }}個參賽者 </p>
+						<p> <a href="/team_profile/{{ i.id }}/"> 團隊資訊 </a> </p>
 						<table class="table">
 							<tr>
 								<th>姓名</th>

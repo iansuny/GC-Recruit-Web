@@ -1,5 +1,5 @@
 from django.contrib import admin
-from profiles.models import Student, Interest, Talent, Badge, Team, Chatroom, up_file, file_info
+from profiles.models import Student, Interest, Badge, Team, Chatroom, up_file, file_info, Role, Teamroom
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -25,10 +25,11 @@ class StudentAdmin(admin.ModelAdmin):
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Interest)
-admin.site.register(Talent)
 admin.site.register(Badge)
 admin.site.register(Team)
 #admin.site.register(Follow)
 admin.site.register(Chatroom)
 admin.site.register(up_file)
 admin.site.register(file_info)
+admin.site.register(Role)
+admin.site.register(Teamroom)
