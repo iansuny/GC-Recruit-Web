@@ -38,7 +38,8 @@ class Student(models.Model):
 	badge = models.ManyToManyField(Badge, default=1 )#one student can have many badges, one badge can have many students
 	role = models.ForeignKey(Role, default=1)
 	team = models.ForeignKey(Team, default=1 )
-	follow = models.ManyToManyField('self', blank=True, symmetrical=False)	
+	follow = models.ManyToManyField('self', blank=True, symmetrical=False)
+	applied = models.ManyToManyField(Team, blank=True, related_name='applier')
 	class Meta:
 		permissions = (
 			("can_edit_base_profile", "Can edit base profile"),
@@ -49,7 +50,6 @@ class Student(models.Model):
 		return self.realname
 
 class Chatroom(models.Model):
-	# roomname = models.CharField(max_length=50)
 	student1 = models.ForeignKey(Student, null=True, related_name='student1')
 	student2 = models.ForeignKey(Student, null=True, related_name='student2')
 	content = models.CharField(max_length=50)
@@ -71,7 +71,6 @@ class file_info(models.Model):
 		return self.upload_name
 
 class Teamroom(models.Model):
-	# roomname = models.CharField(max_length=50)
 	team = models.ForeignKey(Team, null=True)
 	speaker = models.ForeignKey(Student, null=True)
 	content = models.CharField(max_length=50)

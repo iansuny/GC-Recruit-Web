@@ -193,9 +193,27 @@ def teamroom(request,teamid):
 def team_profile(request, teamid):
 	me = Student.objects.get(name=request.user)
 	team = Team.objects.get(id=teamid)
-	return render_to_response('team_profile.html', RequestContext(request, locals()))
+	if request.POST.get('id'):
+		return render_to_response('team_profile.html', RequestContext(request, locals()))
+	if request.POST.get('applied'):
+ 		team = Team.objects.get(id=request.POST['applied'])
+ 		me.applied.add(team)	
+ 		me.save()
+ 		return render_to_response('applied_complete.html', locals())
+	else:
+		return render_to_response('team_profile.html', RequestContext(request, locals()))
 
-
+@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
+def applied_list(request, teamid):
+	me = Student.objects.get(name=request.user)
+	team = Team.objects.get(id=teamid)
+	if request.POST.get('allow'):
+ 		student = Student.objects.get(id=request.POST['allow'])
+ 		team.applier.remove(student)
+ 		student.team = team	
+ 		team.save()
+ 		student.save()
+	return render_to_response('applied_list.html', RequestContext(request, locals()))
 
 
 
