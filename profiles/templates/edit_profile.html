@@ -8,18 +8,23 @@
                     <div class="form-group">
                     <label for="motto">motto:</label>
                     <input id="motto" type="text" name="motto" class="form-control" value="{{student.motto}}">
-                    <label for="team">team:</label>
-                    <select  name="team" >
-                    {% for t in team %}
-                    <option value="{{ t }}"> {{ t }} </option>
+                    <label for="talent">特殊技能:</label>
+                    <input id="talent" type="text" name="talent" class="form-control" value="{{student.talent}}">
+                    
+                    <label for="interest">interest:</label>
+                    <select  name="interest" >
+                    {% for i in interest %}
+                    <option value="{{ i }}"> {{ i }} </option>
                     {% endfor %}
                     </select>
+
                     <label for="role">role:</label>
                     <select  name="role" >
                     {% for ta in role %}
                     <option value="{{ ta }}"> {{ ta }} </option>
                     {% endfor %}
                     </select>
+                    
                     </div>
 
                     <input type="submit" value="送出" class="btn btn-default">

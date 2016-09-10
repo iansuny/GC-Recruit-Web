@@ -17,6 +17,12 @@ class Team(models.Model):
 	name = models.CharField(max_length=50, default='none')
 	interest = models.ForeignKey(Interest, default=1)
 	content = models.CharField(max_length=50, blank=True)
+	class Meta:
+		permissions = (
+			("can_create_team_profile", "Can create team profile"),
+			("can_edit_team_profile", "Can edit team profile"),
+
+		)
 	def __str__(self):
 		return self.name
 class Role(models.Model):

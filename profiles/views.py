@@ -6,6 +6,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 import shutil, os
+from django.contrib.auth.models import Permission, User
 
 # Create your views here.
 @permission_required('profiles.can_view_base_profile', login_url='/create_student/')
@@ -24,14 +25,15 @@ def profile(request):
 @permission_required('profiles.can_edit_base_profile', login_url='/permission_error/')
 def edit(request):
 	student = Student.objects.get(name=request.user)
-	team = Team.objects.all()
+	interest = Interest.objects.all()
 	role = Role.objects.all()
 	if request.POST:
 		motto = request.POST['motto']
-		myteam = request.POST['team']
+		talent = request.POST['talent']
+		myinterest = request.POST['interest']
 		myrole = request.POST['role']
 		student.motto = motto
-		student.team = Team.objects.get(name=myteam)
+		student.interest = Interest.objects.get(name=myinterest)
 		student.role = Role.objects.get(name=myrole)
 		student.save()
 		return render_to_response('my_profile.html', RequestContext(request, locals()))
@@ -143,24 +145,26 @@ def list_team(request):
 	teams = Team.objects.all()
 	return render_to_response('team_list.html', locals())
 
-@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
+@permission_required('profiles.can_create_team_profile', login_url='/permission_error/')
 def create_team(request):
 	errors = []
+	interests = Interest.objects.all()
 	if request.POST:
-		interests = Interest.objects.all()
 		student = request.user.student_set.first()
 		teamname = request.POST['teamname']
-		need = request.POST['need']
-		#team_interest = request.POST['interest']
+		content = request.POST['content']
+		team_interest = request.POST['interest']
 		if any(not request.POST[k] for k in request.POST):
 			errors.append('* 有空白欄位！請不要留空！')
 		if not errors:
 			t = Team.objects.create(
 					name=teamname,
-					#interest = Interest.objects.get(name=team_interest),
-					need = need,
+					interest = Interest.objects.get(name=team_interest),
+					content = content,
 				)
 			student.team = t
+			perm = Permission.objects.get(codename='can_create_team_profile')
+			request.user.user_permissions.remove(perm)
 			student.save()
 		return render_to_response('complete.html', RequestContext(request, locals()))
 	else:
@@ -193,28 +197,43 @@ def teamroom(request,teamid):
 def team_profile(request, teamid):
 	me = Student.objects.get(name=request.user)
 	team = Team.objects.get(id=teamid)
+	none_team = Team.objects.get(name='none')
 	if request.POST.get('id'):
 		return render_to_response('team_profile.html', RequestContext(request, locals()))
 	if request.POST.get('applied'):
- 		team = Team.objects.get(id=request.POST['applied'])
- 		me.applied.add(team)	
- 		me.save()
- 		return render_to_response('applied_complete.html', locals())
-	else:
-		return render_to_response('team_profile.html', RequestContext(request, locals()))
+		if me.team == none_team:
+			me.applied.add(team)	
+			me.save()
+			return render_to_response('applied_complete.html', locals())
+		else:
+			return HttpResponseRedirect("/permission_error/")
 
-@permission_required('profiles.can_view_base_profile', login_url='/create_student/')
+	if request.POST.get('quit'):
+		if me.team == team:
+			me.team = none_team	
+			me.save()
+			perm = Permission.objects.get(codename='can_create_team_profile')
+			request.user.user_permissions.add(perm)
+			return HttpResponseRedirect('/team_list/')
+	return render_to_response('team_profile.html', RequestContext(request, locals()))
+
+@permission_required('profiles.can_view_base_profile', login_url='/permission_error/')
 def applied_list(request, teamid):
 	me = Student.objects.get(name=request.user)
 	team = Team.objects.get(id=teamid)
-	if request.POST.get('allow'):
- 		student = Student.objects.get(id=request.POST['allow'])
- 		team.applier.remove(student)
- 		student.team = team	
- 		team.save()
- 		student.save()
-	return render_to_response('applied_list.html', RequestContext(request, locals()))
-
-
+	if me.team == team:
+		if request.POST.get('allow'):
+			student = Student.objects.get(id=request.POST['allow'])
+			team.applier.remove(student)
+			student.team = team	
+			team.save()
+			student.save()
+			perm = Permission.objects.get(codename='can_create_team_profile')
+			user = User.objects.get(student=student)
+			user.user_permissions.remove(perm)
+			
+		return render_to_response('applied_list.html', RequestContext(request, locals()))
+	else:
+		return HttpResponseRedirect("/permission_error/")
 
 

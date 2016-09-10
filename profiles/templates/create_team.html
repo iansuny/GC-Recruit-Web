@@ -15,14 +15,16 @@
                     <input id="teamname" type="text" name="teamname" class="form-control" value="{{teamname}}">
                     </div>
                     <div class="form-group">
-                    <label for="need">預估隊伍人數:</label>
-                    <input id="need" type="text" name="need" class="form-control" value="{{need}}">
+                    <label for="content">隊伍介紹:</label>
+                    <input id="content" type="text" name="content" class="form-control" value="{{content}}">
                     </div>
                     
-                   <!--  <div class="form-group">
-                    <label for="interest">興趣:</label>
-                    <input id="interest" type="text" name="interest" class="form-control" value="{{interest}}">
-                    </div> -->
+                   <label for="interest">interest:</label>
+                    <select  name="interest" >
+                    {% for i in interests %}
+                    <option value="{{ i }}"> {{ i }} </option>
+                    {% endfor %}
+                    </select>
                     <input type="submit" value="提交" class="btn btn-default">
 
 {% endblock %}
