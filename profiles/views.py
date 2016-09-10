@@ -108,7 +108,7 @@ def upload(request):
 		files = [f for key, f in request.FILES.items()] #抓取檔案(可能多個檔案)
 		if len(files) > 0:
 			try:
-				file_dir = os.path.join('/Users/handsome/Desktop/upload' , str(form.pk))
+				file_dir = os.path.join('static/' , str(form.pk))
                 #如果路徑中的檔案夾不存在就建立一個新的
 				if not os.path.exists(file_dir):
 					os.makedirs(file_dir) 

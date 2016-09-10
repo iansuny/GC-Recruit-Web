@@ -19,7 +19,8 @@ urlpatterns = [
     url(r'^accounts/register/$', register),
   	url(r'^u/$', use_session),
 
-    url(r'^static/(?P<path>.*)', serve, {'document_root':'static/img'}),
+    url(r'^static/(?P<path>.*)', serve, {'document_root':'static/'}),
+    url(r'^media/media/(?P<path>.*)', serve, {'document_root':'media/'}),
 
     url(r'^student_list/$', list_student),
     url(r'^my_profile/$', login_required(profile)),

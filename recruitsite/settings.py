@@ -81,8 +81,16 @@ WSGI_APPLICATION = 'recruitsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'gcdb',
+        'USER': 'gc',
+        'PASSWORD': 'gc',
+        'HOST': 'localhost',
+        'PORT': '',
+        
     }
 }
 
@@ -122,9 +130,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_URL = '/static/img/'
+
+MEDIA_URL = '/media/'
+
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/img'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 #STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
