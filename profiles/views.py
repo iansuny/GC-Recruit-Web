@@ -42,7 +42,7 @@ def edit(request):
 
 def student_create(request):
 	errors = []
-	inter = Interest.objects.all()
+	# inter = Interest.objects.all()
 	if request.POST:
 		name = request.user
 		realname = request.POST['realname']
@@ -50,6 +50,7 @@ def student_create(request):
 		department = request.POST['department']
 		motto = request.POST['motto']
 		talent = request.POST['talent']
+		none_team = Team.objects.get(id=1)
 		if any(not request.POST[k] for k in request.POST):
 			errors.append('* 有空白欄位！請不要留空！')
 		if not errors:
@@ -60,6 +61,7 @@ def student_create(request):
 				department = department,
 				motto = motto,
 				talent = talent,
+				team = none_team
 			)
 		return render_to_response('complete.html', RequestContext(request, locals()))
 	else:
