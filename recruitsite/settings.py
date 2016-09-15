@@ -16,7 +16,6 @@ from recruitsite.secret import DJANGO_SECRET_KEY
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -32,17 +31,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'profiles',
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,7 +58,9 @@ ROOT_URLCONF = 'recruitsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'templates/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,9 +80,19 @@ WSGI_APPLICATION = 'recruitsite.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'test1',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        "name": "dc67463fe7ce24dd8bf0d8c18222ce082",
+        "host": "198.11.228.48",
+        "hostname": "198.11.228.48",
+        "port": 5433,
+        "user": "u95502d799bde433fb4bc6ec347e15296",
+        "username": "u95502d799bde433fb4bc6ec347e15296",
+        "password": "pa0ef819988954f238eff6194cc23a75e",
+        "uri": "postgres://u95502d799bde433fb4bc6ec347e15296:pa0ef819988954f238eff6194cc23a75e@198.11.228.48:5433/dc67463fe7ce24dd8bf0d8c18222ce082",
     }
 }
 
@@ -118,5 +132,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_URL = '/static/img/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/img'),
+]
+#STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
-STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = "/index/"
+
+#one-to-one profile user
+#AUTH_PROFILE_MODULE = 'profiles.Student'
+

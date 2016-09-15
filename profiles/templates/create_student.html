@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} 填寫資料 {% endblock %}
+{% block h2 %} 填寫您的資料 {% endblock %}
+
+{% block content %}
+            {% for e in errors %}
+
+                    <p style="color:red;">{{ e }}</p>
+                {% endfor %}
+
+                <form action="" method="post" class="form-horizontal" role="form" style="width:33%; margin:auto; text-align:left">{% csrf_token %}
+                    <div class="form-group">
+                    <label for="realname">真實姓名:</label>
+                    <input id="realname" type="text" name="realname" class="form-control" value="{{realname}}">
+                    </div>
+                    <div class="form-group">
+                    <label for="nickname">暱稱:</label>
+                    <input id="nickname" type="text" name="nickname" class="form-control" value="{{nickname}}">
+                    </div>
+                    <div class="form-group">
+                    <label for="department">系級:</label>
+                    <input id="department" type="text" name="department" class="form-control" value="{{department}}">
+                    </div>
+                    <div class="form-group">
+                    <label for="motto">座右銘:</label>
+                    <textarea id="motto" rows="10" cols="48" name="motto" class="form-control">{{motto}}</textarea>
+                    </div>
+                    <div class="form-group">
+                    <label for="talent">具備才能:</label>
+                    <textarea id="talent" rows="10" cols="48" name="talent" class="form-control">{{talent}}</textarea>
+                    </div>
+                    <!-- <div class="form-group">
+                    <label for="interest">興趣:</label>
+                    <input id="interest" type="text" name="interest" class="form-control" value="{{interest}}">
+                    </div> -->
+                    
+                    <input type="submit" value="提交" class="btn btn-default">
+{% endblock %}
+{% block img %}
+    
+{% endblock %}
+

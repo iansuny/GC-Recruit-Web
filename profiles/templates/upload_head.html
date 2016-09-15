@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} 上傳 {% endblock %}
+{% block h2 %} {{ s1.nickname }} 上傳您的大頭貼 {% endblock %}
+
+{% block content %}
+	<br><br>
+					<form action="" method="post"  enctype="multipart/form-data">{%csrf_token%}
+						<table>
+  							<tr> <td name="date">上傳日期：</td> <td>{% now "Y-m-d" %}</td> </tr>
+							<tr> <td>上傳檔案：</td> <td><input type="file" name="file"></td> </tr>
+<!-- 							<tr> <td> <input id="post" type="button" value="送出" /> </td> </tr>
+ -->						</table>
+						<input type="submit" value="送出" /> 
+					</form>
+{% endblock %}
+{% block img %}
+	
+{% endblock %}
+
