@@ -1,0 +1,5 @@
+---
+applications:
+- name: ntu-python-test
+  # services:
+  # - mysql
